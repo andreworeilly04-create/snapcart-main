@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Products from './Pages/Products.jsx';
 import Product from './Pages/Product.jsx';
 import About from './Pages/About.jsx';
@@ -13,17 +13,22 @@ import { AllProducts } from './data.js';
 import Cart from './Pages/Cart.jsx';
 
 function App() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem('snapcart_items');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
-   
+   useEffect(() => {
+    localStorage.setItem('snapcart_items', JSON.stringify(cart));
+   }, [cart]);
 
   const addToCart = (product) => {
     setCart((prevCart) => {
-      const existing = prevCart.find((item) => item.id === product.id && item.size === product.size);
+      const existing = prevCart.find((item) => String(item.id) === String(product.id) && item.size === product.size);
 
       if (existing) {
         return prevCart.map((item) =>
-          item.id === product.id && item.size === product.size
+          String(item.id) === String(product.id) && item.size === product.size
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
@@ -52,7 +57,7 @@ function App() {
   
   return (
     <div className={`app ${theme} ${isMenuOpen ? 'menu--open' : ''}`}>
-      <Nav toggleTheme={toggleTheme} toggleMenu={toggleMenu} />
+      <Nav toggleTheme={toggleTheme} toggleMenu={toggleMenu} cart={cart} />
 
       <Routes>
         <Route
@@ -87,6 +92,7 @@ function App() {
             <Product
               AllProducts={AllProducts}
               addToCart={addToCart}
+              cart={cart}
             />
             
           }

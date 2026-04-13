@@ -5,7 +5,11 @@ import './Nav.css';
 import snapcart from '../assets/SnapCart.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping, faMoon, faUser, faSun, faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
-const Nav = ({ toggleTheme, toggleMenu }) => {
+const Nav = ({ toggleTheme, toggleMenu, cart=[] }) => {
+
+  const totalItems = cart.reduce((total, item)=> {
+    return total + item.quantity;
+  }, 0);
   return (
     <>
       <section id="nav">
@@ -16,12 +20,26 @@ const Nav = ({ toggleTheme, toggleMenu }) => {
           <ul className="profile__links">
             <li onClick={toggleTheme} className="profile__link--moon"><FontAwesomeIcon icon={faMoon} /></li>
             <li className="profile__link"><FontAwesomeIcon icon={faUser} /></li>
-            <Link className="cart_link" to="/cart"><li className="profile__link"><FontAwesomeIcon icon={faCartShopping} /></li></Link>
+            <Link className="cart_link" to="/cart"><li className="profile__link"><FontAwesomeIcon icon={faCartShopping} />
+            {totalItems > 0 && ( <div className="cart_number--container">
+              <p className="cart_number">{totalItems}</p>
+            </div> 
+            )}
+            </li>
+            </Link>
+           
           </ul>
           <ul className="dark--profile__links">
             <li onClick={toggleTheme} className="profile__link--sun"><FontAwesomeIcon icon={faSun} /></li>
             <li className="dark--profile__link"><FontAwesomeIcon icon={faUser} /></li>
-           <Link className="cart_link" to="/cart"><li className="dark--profile__link"><FontAwesomeIcon icon={faCartShopping} /></li></Link>
+           <Link className="cart_link" to="/cart"><li className="dark--profile__link"><FontAwesomeIcon icon={faCartShopping} />
+            {totalItems > 0 && ( <div className="cart_number--container">
+              <p className="cart_number">{totalItems}</p>
+            </div> 
+            )}
+            </li>
+            </Link>
+           
           </ul>
           <ul className="nav__links">
             <Link to="/"><li className="nav__link">Home</li></Link>

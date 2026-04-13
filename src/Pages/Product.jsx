@@ -1,37 +1,51 @@
 import React, { useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons'
 import './Product.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStarHalfAlt, faStar, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 
-const Product = ({ AllProducts, addToCart,}) => {
+const Product = ({ AllProducts, addToCart, cart }) => {
 
-    
+    const { productId } = useParams();
 
-    
+    const product = AllProducts.find((p) => String(p.id) === String(productId));
+
+    const isInCart = cart.some((item) => item.id === product.id);
+
+    const navigate = useNavigate();
+
+
+
+
+
+
     const [selectedSize, setSelectedSize] = useState("");
-    
+
     const handleAddToCart = () => {
+
+        if (isInCart) {
+            navigate('/cart');
+            return;
+        }
+        
+
         if (product.category === 'CLOTHING' && !selectedSize) {
             alert("Please select a size first!");
             return;
         }
 
-       const itemToAdd = {
+        const itemToAdd = {
             ...product,
             size: product.category === 'CLOTHING' ? selectedSize : null,
         };
         addToCart(itemToAdd);
         setSelectedSize("");
+
+
     };
 
-
-    const { productId } = useParams();
-
-
-    const product = AllProducts.find((p) => String(p.id) === String(productId));
 
     if (!product) return <div>Product not found!</div>;
 
@@ -64,21 +78,21 @@ const Product = ({ AllProducts, addToCart,}) => {
                     <p className="product__description">{product.description}</p>
                 </div>
                 {product.category === 'CLOTHING' && (
-                <div className="size-selector">
-                    <p>Select Size</p>
-                    <div className="size-buttons">
-                        {['S', 'M', 'L', 'XL', 'XXL'].map((size) => (
-                            <button key={size} type="button" className={`size-btn ${selectedSize === size ? 'active' : ''}`}
-                            onClick={() => setSelectedSize(size)}>{size}</button>
-                        ))}
+                    <div className="size-selector">
+                        <p className="select_size">Select Size</p>
+                        <div className="size-buttons">
+                            {['S', 'M', 'L', 'XL', 'XXL'].map((size) => (
+                                <button key={size} type="button" className={`size-btn ${selectedSize === size ? 'active' : ''}`}
+                                    onClick={() => setSelectedSize(size)}>{size}</button>
+                            ))}
+                        </div>
                     </div>
-                </div>
                 )}
 
 
 
 
-                <button className="btn" onClick={handleAddToCart}>Add To Cart</button>
+                <button className="btn" onClick={handleAddToCart}>{isInCart ? "View Cart" : "Add To Cart"} </button>
             </div>
 
 

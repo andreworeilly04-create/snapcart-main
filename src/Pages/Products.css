@@ -54,8 +54,8 @@ select {
     transition: all 300ms ease;
 }
 
-.dark .faSearch{
-    color:white;
+.dark .faSearch {
+    color: white;
 }
 
 
@@ -80,47 +80,42 @@ select {
     width: 100%;
     padding: 12px 30px;
     transition: all 300ms ease;
-    visibility:hidden;
-    opacity:0;
+    visibility: hidden;
+    opacity: 0;
 }
 
-.input.open{
-    visibility:visible;
-    opacity:1;
+.input.open {
+    visibility: visible;
+    opacity: 1;
 }
 
 .times {
     cursor: pointer;
 }
 
-.dark .times{
-    color:white;
+.dark .times {
+    color: white;
 }
 
-@media(max-width:588px){
-    .input{
-        width:80%;
+@media(max-width:588px) {
+    .input {
+        padding: 0px 12px;
+        margin-top: 12px;
+        width: 90%;
     }
 }
 
-@media(max-width:462px){
-    .input{
-        width:50%;
+@media(max-width:462px) {
+
+    #filter {
+        font-size: 9px;
     }
 
-    input::placeholder{
-        opacity:0;
+    #category {
+        font-size: 9px;
     }
-   #filter{
-    font-size:9px;
-   }
-    #category{
-    font-size:9px;
-   }
-}
 
-@media(max-width:350px){
-    .input{
-        width:30%;
+    .faSearch{
+        font-size:12px;
     }
 }

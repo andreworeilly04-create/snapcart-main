@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Cart.css'
 import { AllProducts } from '../data'
-
+import { Link } from 'react-router-dom';
 
 const Cart = ({cart, setCart}) => {
     
@@ -26,6 +26,17 @@ const Cart = ({cart, setCart}) => {
         <div className="cart__title--container">
             <h2 className="your_cart">Your Cart</h2>
         </div>
+
+        <div className="no_items--container">
+          {cart.length === 0 ? (
+            <>
+          <h3 className="no_items">You Don't have any items in your cart</h3>
+          <div className="btn__container">
+          <Link to="/products"><button className="browse__btn--cart">Browse Products</button></Link></div>
+         </> 
+       
+        ) : (
+
         <div className="cart__container">
             <div className="card-details">
                 {cart.map((item) => {
@@ -48,17 +59,19 @@ const Cart = ({cart, setCart}) => {
                   );
                 })}
                 </div>
+
                 <div className="cart-summary">
                     <h3 className="order_summary">Order Summary</h3>
-                    <div className="summary-line"><span className="cart">Price:</span><span>${subtotal.toFixed(2)} </span></div>
-                    <div className="summary-line"><span className="cart">Shipping:</span><span>${shipping.toFixed(2)} </span></div>
-                    <div className="summary-line"><span className="cart">Tax:</span><span>${tax.toFixed(2)} </span></div>
+                    <div className="summary-line"><span className="cart">Price:</span><span className="cart_price">${subtotal.toFixed(2)} </span></div>
+                    <div className="summary-line"><span className="cart">Shipping:</span><span className="cart_price">${shipping.toFixed(2)} </span></div>
+                    <div className="summary-line"><span className="cart">Tax:</span><span className="cart_price">${tax.toFixed(2)} </span></div>
                     
-                    <div className="summary-line--total"><span className="cart">Total:</span><span>${total.toFixed(2)}</span></div>
+                    <div className="summary-line--total"><span className="cart">Total:</span><span className="cart_price"> ${total.toFixed(2)}</span></div>
                     <button className="checkout_btn">Proceed to Checkout</button>
                 </div>
                 </div>
-                
+        )}
+        </div>
       </section>
      
     </>
