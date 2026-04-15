@@ -44,10 +44,11 @@
 .email {
     max-width: 300px;
     margin-top: 7px;
+    width:100%;
 }
 
 .password {
-    width:104%;
+    width:100%;
 }
 
 .login__btn {
@@ -114,6 +115,34 @@
     opacity:0;
     pointer-events:none;
     transform:translateY(20px);
+}
+
+.first_name{
+    width:100%;
+}
+
+.last_name{
+    width:100%;
+}
+
+.email{
+    width:100%;
+}
+
+.create_email{
+    width:100%;
+}
+
+.create_password{
+    width:100%;
+}
+
+.confirm_password{
+    width:100%;
+}
+
+.password{
+    width:100%;
 }
 
 .register__field.active{
