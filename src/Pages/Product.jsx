@@ -4,35 +4,36 @@ import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons'
 import './Product.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStarHalfAlt, faStar, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
 
+const Product = ({ AllProducts, addToCart, cart, isLoggedIn }) => {
 
-const Product = ({ AllProducts, addToCart, cart }) => {
+     const { productId } = useParams();
 
-    const { productId } = useParams();
+     const navigate = useNavigate();
 
-    const product = AllProducts.find((p) => String(p.id) === String(productId));
+     const product = AllProducts.find((p) => String(p.id) === String(productId));
 
-    const isInCart = cart.some((item) => item.id === product.id);
+     const [selectedSize, setSelectedSize] = useState("");
 
-    const navigate = useNavigate();
+     const isInCart = cart.some((item) => {if (product.category === 'CLOTHING') {
+        return item.id === product.id && item.size === selectedSize;
+     } else {
+        return item.id === product.id
+     }
+    });
 
-
-
-
-
-
-    const [selectedSize, setSelectedSize] = useState("");
-
+      
     const handleAddToCart = () => {
 
         if (isInCart) {
             navigate('/cart');
             return;
         }
-        
+    
 
         if (product.category === 'CLOTHING' && !selectedSize) {
-            alert("Please select a size first!");
+            toast.error("Please select a size first!");
             return;
         }
 
@@ -41,9 +42,6 @@ const Product = ({ AllProducts, addToCart, cart }) => {
             size: product.category === 'CLOTHING' ? selectedSize : null,
         };
         addToCart(itemToAdd);
-        setSelectedSize("");
-
-
     };
 
 
@@ -92,7 +90,7 @@ const Product = ({ AllProducts, addToCart, cart }) => {
 
 
 
-                <button className="btn" onClick={handleAddToCart}>{isInCart ? "View Cart" : "Add To Cart"} </button>
+                <button disabled={!isLoggedIn} className="btn" onClick={handleAddToCart}>{!isLoggedIn ? "Log in to Add" : (isInCart ? "View Cart" : "Add To Cart")} </button>
             </div>
 
 

@@ -10,15 +10,24 @@ const Cart = ({cart, setCart}) => {
     const tax = subtotal * 0.10;
     const total = subtotal + shipping + tax;
 
-    const removeFromCart = (id, size) => {
-      setCart(cart.filter(item => !(item.id === id && item.size === size)));
+    const removeFromCart = async (itemObject) => {
+      const updatedCart = cart.filter(item => item.id !== itemObject.id || item.size !== itemObject.size );
+        setCart(updatedCart);
+
+    localStorage.setItem('snapcart_items', JSON.stringify(updatedCart));
+    
     };
 
     const updateQuantity = (id, amount, size) => 
     {
-      setCart(cart.map(item => {if (item.id === id && item.size === size ) {const newquantity = Math.max(1, item.quantity + amount); return {...item, quantity: newquantity};} return item;  
-    }));
-    };
+     const updatedCart = cart.map(item => { if (item.id === id && item.size === size) {return {...item, quantity: Math.max(1, item.quantity + amount) };
+    }
+    return item;
+    });
+
+    setCart(updatedCart);
+    localStorage.setItem('snapcart_items', JSON.stringify(updatedCart));
+};
 
   return (
     <>
@@ -30,7 +39,7 @@ const Cart = ({cart, setCart}) => {
         <div className="no_items--container">
           {cart.length === 0 ? (
             <>
-          <h3 className="no_items">You Don't have any items in your cart</h3>
+          <h3 className="no_items">Your Cart is Empty</h3>
           <div className="btn__container">
           <Link to="/products"><button className="browse__btn--cart">Browse Products</button></Link></div>
          </> 
@@ -41,7 +50,7 @@ const Cart = ({cart, setCart}) => {
             <div className="card-details">
                 {cart.map((item) => {
                   return (
-                <div key={`${item.id}-${item.size}`}> <img className="cart-item-image" src={item.image} alt={item.name}  />
+                <div key={`${item.id}-${item.size}`} className="cart__item-card"> <img className="cart-item-image" src={item.image} alt={item.name}  />
                     <div>
                         <h4 className="item_name">{item.name}</h4>
                         {item.size && <p className="item_size">Size: {item.size}</p>}
@@ -54,7 +63,7 @@ const Cart = ({cart, setCart}) => {
                  </div>
                  <span className="item_price">${item.price.toFixed(2)}</span>
 
-                 <button onClick={() => removeFromCart(item.id, item.size)} className="remove-btn">Remove</button>
+                 <button onClick={() => removeFromCart(item)} className="remove-btn">Remove</button>
                  </div>
                   );
                 })}

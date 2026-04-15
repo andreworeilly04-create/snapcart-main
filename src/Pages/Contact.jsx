@@ -3,7 +3,9 @@ import './Contact.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhone, faEnvelope} from '@fortawesome/free-solid-svg-icons'
 import emailjs from '@emailjs/browser';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+import { toast } from 'react-toastify';
 
 const Contact = () => {
 
@@ -20,8 +22,8 @@ const Contact = () => {
       'GL1hSa2TuOXGaNGo5'
     )
     .then((result) => {
-      console.log('Success!', result.text); alert("Message sent successfully!"); e.target.reset();}, (error) => {
-        console.log('Failed...', error.text); alert("Something went wrong, please try again"); 
+      console.log('Success!', result.text); toast.success("Message sent successfully!"); e.target.reset();}, (error) => {
+        console.log('Failed...', error.text); toast.error("Something went wrong, please try again"); 
       });
       };
     
