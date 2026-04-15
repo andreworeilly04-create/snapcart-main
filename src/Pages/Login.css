@@ -102,19 +102,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 37px;
+    gap: 25px;
     background-color: lightblue;
-    max-width: 300px;
+    max-width: 90%;
     margin: 0 auto;
     padding: 20px 25px;
     margin-top: 25px;
-    height: 759px;
+    min-height: 759px;
     transition:all 300ms ease;
     position: relative;
     top:-560px;
     opacity:0;
     pointer-events:none;
     transform:translateY(20px);
+    box-sizing:border-box;
 }
 
 .first_name{
