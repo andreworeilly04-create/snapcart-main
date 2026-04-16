@@ -65,7 +65,7 @@ export const registerUser = async (email, password, firstName, lastName) => {
         email: email
       });
 
-    return { success: true }
+    return { success: true, user: user };
 
   } catch (err) {
     return { success: false, error: err.message };

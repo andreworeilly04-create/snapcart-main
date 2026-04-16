@@ -35,7 +35,7 @@ const Login = ({ setIsLoggedIn, setCart, setUser }) => {
             setUser(resultlogin.user);
             navigate("/");
         } else {
-            toast.error("Invalid Email or Password");
+            toast.error(resultlogin.error || "Something went wrong");
         }
     } catch (error) {
         console.error(error);
@@ -46,17 +46,14 @@ const Login = ({ setIsLoggedIn, setCart, setUser }) => {
 
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
-
         const result = await registerUser(email, password, firstName, lastName);
-
-
         if (result.success) {
             toast.success("Account created successfully!");
             setIsLoggedIn(true);
             setUser(result.user);
             navigate("/")
         } else {
-            toast.error("Account already Exists");
+            toast.error(result.error || "Something went wrong");
         }
     };
 
@@ -76,14 +73,14 @@ const Login = ({ setIsLoggedIn, setCart, setUser }) => {
                     <p className="forgot_password">Forgot Password</p>
                     <p onClick={() => setShowRegister(true)} className="register_account">Create account</p>
                 </div>
-                <form className={`register__field ${showRegister ? 'active' : ''}`}>
+                <form onSubmit={handleRegisterSubmit} className={`register__field ${showRegister ? 'active' : ''}`}>
                     <h3 className="register__title">Create Account</h3>
                     <input className="first_name" type="text" value={firstName} placeholder="Enter your First Name" required onChange={(e) => setFirstName(e.target.value)} />
                     <input className="last_name" type="text" value={lastName} placeholder="Enter your Last Name" required onChange={(e) => setLastName(e.target.value)} />
                     <input className="create_email" value={email} type="email" placeholder="Enter your new email" onChange={(e) => setEmail(e.target.value)} />
                     <input className="create_password" value={password} type="password" placeholder="Create new password" onChange={(e) => setPassword(e.target.value)} />
                     <input className="confirm_password" value={password} type="password" placeholder="Confirm Password" onChange={(e) => setPassword(e.target.value)} />
-                    <button onClick={handleRegisterSubmit} className="register__btn">Register</button>
+                    <button className="register__btn">Register</button>
                     <p onClick={() => setShowRegister(false)} className="already_created"><b>Already have an account ?</b>Login</p>
                 </form>
             </section>
